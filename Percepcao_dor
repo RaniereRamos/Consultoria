@@ -1,0 +1,616 @@
+###############################################################################
+#                                                                             #
+#  PROJETO: PERCEPCAO DA DOR (ANNA GENY)                                      #
+#  OBJETIVO: Avaliar se Enfermeiros e Tecnicos de Enfermagem possuem          #
+#  conhecimento e aplicam as tecnicas para manejo da dor em hospitais         #
+#                                                                             #
+#  ANALISES ESTATISTICAS                                                      #
+#                                                                             #
+#     1. Analise exploratoria dos dados (frequencias, media, mediana, moda,   #
+#      variancia, desvio padrao, histogramas, Boxplot, graficos               #
+#      diagramas de dispersao)                                                #
+#                                                                             #
+#     2. Aplicacao de Tabelas de Contingencia                                 #
+#                                                                             #
+#     3. Aplicacao de Testes de Hipoteses para testar diferencas entre grupos #
+#                                                                             #
+# OBS: Testar, se possivel, a tecnica de analise de correspondencia           #
+#                                                                             #
+###############################################################################
+
+
+###                     ANALISE EXPLORATORIA DOS DADOS                      ###   
+
+
+### Importacao e leitura dos dados
+### Arquivo de dados das respostas dos enfermeiros e técnicos de enfermagem
+
+# definção do diretório
+setwd("C:/Raniere/Análise Estatística/Anna Geny") 
+getwd()
+
+# Leitura dos dados
+enfermagem <- read.csv(file = "Dor_codigo.csv", header = T, sep = ";")
+enfermagem                      
+summary(enfermagem)
+str(enfermagem)
+
+
+# A partir de agora os nomes do dataframe serão vistos como objetos
+# (para desfazer a ação use o comando "detach")
+attach(enfermagem)
+
+
+### Apresentação de Tabelas Associativas (Segmentada por Hospitais)
+# Instalação de pacote gráfico
+install.packages("gmodels")
+library(gmodels)
+CrossTable(enfermagem$Hospital, enfermagem$Setor)
+
+# Tabelas Relativas e Proporcionais (Hospital X Q1_Profissáo)
+tab.freq.hosp <- table(Hospital, Q1_profissao)
+cbind(tab.freq.hosp, margin.table(tab.freq.hosp, 1))
+rbind(tab.freq.hosp, margin.table(tab.freq.hosp, 2))
+
+prop.table(tab.freq.hosp)
+prop.table(tab.freq.hosp, 1)
+prop.table(tab.freq.hosp, 2)
+
+CrossTable(enfermagem$Hospital, enfermagem$Q1_profissao)
+
+# Tabelas Relativas e Proporcionais (Hospital X Q2_tempo_prof)
+tab.freq.hosp.tempo <- table(Hospital, Q2_tempo_prof)
+cbind(tab.freq.hosp.tempo, margin.table(tab.freq.hosp.tempo, 1))
+rbind(tab.freq.hosp.tempo, margin.table(tab.freq.hosp.tempo, 2))
+
+prop.table(tab.freq.hosp.tempo)
+prop.table(tab.freq.hosp.tempo, 1)
+prop.table(tab.freq.hosp.tempo, 2)
+
+CrossTable(enfermagem$Hospital, enfermagem$Q2_tempo_prof)
+
+# Tabelas Relativas e Proporcionais (Hospital X Q3_disc_esp)
+tab.freq.hosp.disc <- table(Hospital, Q3_disc_esp)
+cbind(tab.freq.hosp.disc, margin.table(tab.freq.hosp.disc, 1))
+rbind(tab.freq.hosp.disc, margin.table(tab.freq.hosp.disc, 2))
+
+prop.table(tab.freq.hosp.disc)
+prop.table(tab.freq.hosp.disc, 1)
+prop.table(tab.freq.hosp.disc, 2)
+
+CrossTable(enfermagem$Hospital, enfermagem$Q3_disc_esp)
+
+# Tabelas Relativas e Proporcionais (Hospital X Q4_capacita)
+tab.freq.hosp.capacita <- table(Hospital, Q4_capacita)
+cbind(tab.freq.hosp.capacita, margin.table(tab.freq.hosp.capacita, 1))
+rbind(tab.freq.hosp.capacita, margin.table(tab.freq.hosp.capacita, 2))
+
+prop.table(tab.freq.hosp.capacita)
+prop.table(tab.freq.hosp.capacita, 1)
+prop.table(tab.freq.hosp.capacita, 2)
+
+CrossTable(enfermagem$Hospital, enfermagem$Q4_capacita)
+
+# Tabelas Relativas e Proporcionais (Hospital X Q5_OMS)
+tab.freq.hosp.OMS <- table(Hospital, Q5_OMS)
+cbind(tab.freq.hosp.OMS, margin.table(tab.freq.hosp.OMS, 1))
+rbind(tab.freq.hosp.OMS, margin.table(tab.freq.hosp.OMS, 2))
+
+prop.table(tab.freq.hosp.OMS)
+prop.table(tab.freq.hosp.OMS, 1)
+prop.table(tab.freq.hosp.OMS, 2)
+
+CrossTable(enfermagem$Hospital, enfermagem$Q5_OMS)
+
+# Tabelas Relativas e Proporcionais (Hospital X Q6_metodo)
+tab.freq.hosp.metodo <- table(Hospital, Q6_metodo)
+cbind(tab.freq.hosp.metodo, margin.table(tab.freq.hosp.metodo, 1))
+rbind(tab.freq.hosp.metodo, margin.table(tab.freq.hosp.metodo, 2))
+
+prop.table(tab.freq.hosp.metodo)
+prop.table(tab.freq.hosp.metodo, 1)
+prop.table(tab.freq.hosp.metodo, 2)
+
+CrossTable(enfermagem$Hospital, enfermagem$Q6_metodo)
+
+# Tabelas Relativas e Proporcionais (Hospital X Q6_utiliza)
+tab.freq.hosp.utiliza <- table(Hospital, Q6_utiliza)
+cbind(tab.freq.hosp.utiliza, margin.table(tab.freq.hosp.utiliza, 1))
+rbind(tab.freq.hosp.utiliza, margin.table(tab.freq.hosp.utiliza, 2))
+
+prop.table(tab.freq.hosp.utiliza)
+prop.table(tab.freq.hosp.utiliza, 1)
+prop.table(tab.freq.hosp.utiliza, 2)
+
+CrossTable(enfermagem$Hospital, enfermagem$Q6_utiliza)
+
+# Tabelas Relativas e Proporcionais (Hospital X Q7_nome_met)
+tab.freq.hosp.nomemet <- table(Hospital, Q7_nome_met)
+cbind(tab.freq.hosp.nomemet, margin.table(tab.freq.hosp.nomemet, 1))
+rbind(tab.freq.hosp.nomemet, margin.table(tab.freq.hosp.nomemet, 2))
+
+prop.table(tab.freq.hosp.nomemet)
+prop.table(tab.freq.hosp.nomemet, 1)
+prop.table(tab.freq.hosp.nomemet, 2)
+
+CrossTable(enfermagem$Hospital, enfermagem$Q7_nome_met)
+
+# Tabelas Relativas e Proporcionais (Hospital X Q12_dor_suportavel)
+tab.freq.hosp.dor <- table(Hospital, Q12_dor_suportavel)
+cbind(tab.freq.hosp.dor, margin.table(tab.freq.hosp.dor, 1))
+rbind(tab.freq.hosp.dor, margin.table(tab.freq.hosp.dor, 2))
+
+prop.table(tab.freq.hosp.dor)
+prop.table(tab.freq.hosp.dor, 1)
+prop.table(tab.freq.hosp.dor, 2)
+
+CrossTable(enfermagem$Hospital, enfermagem$Q12_dor_suportavel)
+
+# Tabelas Relativas e Proporcionais (Hospital X Q17_transducao)
+tab.freq.hosp.transducao <- table(Hospital, Q17_transducao)
+cbind(tab.freq.hosp.transducao, margin.table(tab.freq.hosp.transducao, 1))
+rbind(tab.freq.hosp.transducao, margin.table(tab.freq.hosp.transducao, 2))
+
+prop.table(tab.freq.hosp.transducao)
+prop.table(tab.freq.hosp.transducao, 1)
+prop.table(tab.freq.hosp.transducao, 2)
+
+CrossTable(enfermagem$Hospital, enfermagem$Q17_transducao)
+
+# Tabelas Relativas e Proporcionais (Hospital X Q18_dor)
+tab.freq.hosp.dor2 <- table(Hospital, Q18_dor)
+cbind(tab.freq.hosp.dor2, margin.table(tab.freq.hosp.dor2, 1))
+rbind(tab.freq.hosp.dor2, margin.table(tab.freq.hosp.dor2, 2))
+
+prop.table(tab.freq.hosp.dor2)
+prop.table(tab.freq.hosp.dor2, 1)
+prop.table(tab.freq.hosp.dor2, 2)
+
+CrossTable(enfermagem$Hospital, enfermagem$Q18_dor)
+
+# Tabelas Relativas e Proporcionais (Hospital X Q19_cultura)
+tab.freq.hosp.cultura <- table(Hospital, Q19_cultura)
+cbind(tab.freq.hosp.cultura, margin.table(tab.freq.hosp.cultura, 1))
+rbind(tab.freq.hosp.cultura, margin.table(tab.freq.hosp.cultura, 2))
+
+prop.table(tab.freq.hosp.cultura)
+prop.table(tab.freq.hosp.cultura, 1)
+prop.table(tab.freq.hosp.cultura, 2)
+
+CrossTable(enfermagem$Hospital, enfermagem$Q19_cultura)
+
+# Tabelas Relativas e Proporcionais (Hospital X Q20_protocolo)
+tab.freq.hosp.protocolo <- table(Hospital, Q20_protocolo)
+cbind(tab.freq.hosp.protocolo, margin.table(tab.freq.hosp.protocolo, 1))
+rbind(tab.freq.hosp.protocolo, margin.table(tab.freq.hosp.protocolo, 2))
+
+prop.table(tab.freq.hosp.protocolo)
+prop.table(tab.freq.hosp.protocolo, 1)
+prop.table(tab.freq.hosp.protocolo, 2)
+
+CrossTable(enfermagem$Hospital, enfermagem$Q20_protocolo)
+
+
+### Apresentação de Tabelas Associativas (Segmentada por Profissional)
+CrossTable(enfermagem$Q1_profissao, enfermagem$Setor)
+
+# Tabelas Relativas e Proporcionais (Q1_profissao X Hospital)
+tab.freq.prof <- table(Q1_profissao, Hospital)
+cbind(tab.freq.prof, margin.table(tab.freq.prof, 1))
+rbind(tab.freq.prof, margin.table(tab.freq.prof, 2))
+
+prop.table(tab.freq.prof)
+prop.table(tab.freq.prof, 1)
+prop.table(tab.freq.prof, 2)
+
+CrossTable(enfermagem$Q1_profissao, enfermagem$Hospital)
+
+# Tabelas Relativas e Proporcionais (Q1_profissao X Q2_tempo_prof)
+tab.freq.prof.tempo <- table(Q1_profissao, Q2_tempo_prof)
+cbind(tab.freq.prof.tempo, margin.table(tab.freq.prof.tempo, 1))
+rbind(tab.freq.prof.tempo, margin.table(tab.freq.prof.tempo, 2))
+
+prop.table(tab.freq.prof.tempo)
+prop.table(tab.freq.prof.tempo, 1)
+prop.table(tab.freq.prof.tempo, 2)
+
+CrossTable(enfermagem$Q1_profissao, enfermagem$Q2_tempo_prof)
+
+# Tabelas Relativas e Proporcionais (Q1_profissao X Q3_disc_esp)
+tab.freq.prof.disc <- table(Q1_profissao, Q3_disc_esp)
+cbind(tab.freq.prof.disc, margin.table(tab.freq.prof.disc, 1))
+rbind(tab.freq.prof.disc, margin.table(tab.freq.prof.disc, 2))
+
+prop.table(tab.freq.prof.disc)
+prop.table(tab.freq.prof.disc, 1)
+prop.table(tab.freq.prof.disc, 2)
+
+CrossTable(enfermagem$Q1_profissao, enfermagem$Q3_disc_esp)
+
+# Tabelas Relativas e Proporcionais (Q1_profissao X Q4_capacita)
+tab.freq.prof.capacita <- table(Q1_profissao, Q4_capacita)
+cbind(tab.freq.prof.capacita, margin.table(tab.freq.prof.capacita, 1))
+rbind(tab.freq.prof.capacita, margin.table(tab.freq.prof.capacita, 2))
+
+prop.table(tab.freq.prof.capacita)
+prop.table(tab.freq.prof.capacita, 1)
+prop.table(tab.freq.prof.capacita, 2)
+
+CrossTable(enfermagem$Q1_profissao, enfermagem$Q4_capacita)
+
+# Tabelas Relativas e Proporcionais (Q1_profissao X Q5_OMS)
+tab.freq.prof.OMS <- table(Q1_profissao, Q5_OMS)
+cbind(tab.freq.prof.OMS, margin.table(tab.freq.prof.OMS, 1))
+rbind(tab.freq.prof.OMS, margin.table(tab.freq.prof.OMS, 2))
+
+prop.table(tab.freq.prof.OMS)
+prop.table(tab.freq.prof.OMS, 1)
+prop.table(tab.freq.prof.OMS, 2)
+
+CrossTable(enfermagem$Q1_profissao, enfermagem$Q5_OMS)
+
+# Tabelas Relativas e Proporcionais (Q1_profissao X Q6_metodo)
+tab.freq.prof.metodo <- table(Q1_profissao, Q6_metodo)
+cbind(tab.freq.prof.metodo, margin.table(tab.freq.prof.metodo, 1))
+rbind(tab.freq.prof.metodo, margin.table(tab.freq.prof.metodo, 2))
+
+prop.table(tab.freq.prof.metodo)
+prop.table(tab.freq.prof.metodo, 1)
+prop.table(tab.freq.prof.metodo, 2)
+
+CrossTable(enfermagem$Q1_profissao, enfermagem$Q6_metodo)
+
+# Tabelas Relativas e Proporcionais (Q1_profissao X Q6_utiliza)
+tab.freq.prof.utiliza <- table(Q1_profissao, Q6_utiliza)
+cbind(tab.freq.prof.utiliza, margin.table(tab.freq.prof.utiliza, 1))
+rbind(tab.freq.prof.utiliza, margin.table(tab.freq.prof.utiliza, 2))
+
+prop.table(tab.freq.prof.utiliza)
+prop.table(tab.freq.prof.utiliza, 1)
+prop.table(tab.freq.prof.utiliza, 2)
+
+CrossTable(enfermagem$Q1_profissao, enfermagem$Q6_utiliza)
+
+# Tabelas Relativas e Proporcionais (Q1_profissao X Q7_nome_met)
+tab.freq.prof.nomemet <- table(Q1_profissao, Q7_nome_met)
+cbind(tab.freq.prof.nomemet, margin.table(tab.freq.prof.nomemet, 1))
+rbind(tab.freq.prof.nomemet, margin.table(tab.freq.prof.nomemet, 2))
+
+prop.table(tab.freq.prof.nomemet)
+prop.table(tab.freq.prof.nomemet, 1)
+prop.table(tab.freq.prof.nomemet, 2)
+
+CrossTable(enfermagem$Q1_profissao, enfermagem$Q7_nome_met)
+
+# Tabelas Relativas e Proporcionais (Q1_profissao X Q12_dor_suportavel)
+tab.freq.prof.dor <- table(Q1_profissao, Q12_dor_suportavel)
+cbind(tab.freq.prof.dor, margin.table(tab.freq.prof.dor, 1))
+rbind(tab.freq.prof.dor, margin.table(tab.freq.prof.dor, 2))
+
+prop.table(tab.freq.prof.dor)
+prop.table(tab.freq.prof.dor, 1)
+prop.table(tab.freq.prof.dor, 2)
+
+CrossTable(enfermagem$Q1_profissao, enfermagem$Q12_dor_suportavel)
+
+# Tabelas Relativas e Proporcionais (Q1_profissao X Q17_transducao)
+tab.freq.prof.transducao <- table(Q1_profissao, Q17_transducao)
+cbind(tab.freq.prof.transducao, margin.table(tab.freq.prof.transducao, 1))
+rbind(tab.freq.prof.transducao, margin.table(tab.freq.prof.transducao, 2))
+
+prop.table(tab.freq.prof.transducao)
+prop.table(tab.freq.prof.transducao, 1)
+prop.table(tab.freq.prof.transducao, 2)
+
+CrossTable(enfermagem$Q1_profissao, enfermagem$Q17_transducao)
+
+# Tabelas Relativas e Proporcionais (Q1_profissao X Q18_dor)
+tab.freq.prof.dor2 <- table(Q1_profissao, Q18_dor)
+cbind(tab.freq.prof.dor2, margin.table(tab.freq.prof.dor2, 1))
+rbind(tab.freq.prof.dor2, margin.table(tab.freq.prof.dor2, 2))
+
+prop.table(tab.freq.prof.dor2)
+prop.table(tab.freq.prof.dor2, 1)
+prop.table(tab.freq.prof.dor2, 2)
+
+CrossTable(enfermagem$Q1_profissao, enfermagem$Q18_dor)
+
+# Tabelas Relativas e Proporcionais (Q1_profissao X Q19_cultura)
+tab.freq.prof.cultura <- table(Q1_profissao, Q19_cultura)
+cbind(tab.freq.prof.cultura, margin.table(tab.freq.prof.cultura, 1))
+rbind(tab.freq.prof.cultura, margin.table(tab.freq.prof.cultura, 2))
+
+prop.table(tab.freq.prof.cultura)
+prop.table(tab.freq.prof.cultura, 1)
+prop.table(tab.freq.prof.cultura, 2)
+
+CrossTable(enfermagem$Q1_profissao, enfermagem$Q19_cultura)
+
+# Tabelas Relativas e Proporcionais (Q1_profissao X Q20_protocolo)
+tab.freq.prof.protocolo <- table(Q1_profissao, Q20_protocolo)
+cbind(tab.freq.prof.protocolo, margin.table(tab.freq.prof.protocolo, 1))
+rbind(tab.freq.prof.protocolo, margin.table(tab.freq.prof.protocolo, 2))
+
+prop.table(tab.freq.prof.protocolo)
+prop.table(tab.freq.prof.protocolo, 1)
+prop.table(tab.freq.prof.protocolo, 2)
+
+CrossTable(enfermagem$Q1_profissao, enfermagem$Q20_protocolo)
+
+
+### Apresentação de Tabelas Associativas (Segmentada por Experiência anos)
+
+CrossTable(enfermagem$Q2_tempo_prof, enfermagem$Setor)
+
+# Tabelas Relativas e Proporcionais (Q2_tempo_prof X Hospital)
+tab.freq.tempo <- table(Q2_tempo_prof, Hospital)
+cbind(tab.freq.tempo, margin.table(tab.freq.tempo, 1))
+rbind(tab.freq.tempo, margin.table(tab.freq.tempo, 2))
+
+prop.table(tab.freq.tempo)
+prop.table(tab.freq.tempo, 1)
+prop.table(tab.freq.tempo, 2)
+
+CrossTable(enfermagem$Q2_tempo_prof, enfermagem$Hospital)
+
+# Tabelas Relativas e Proporcionais (Q2_tempo_prof X Q1_profissao)
+tab.freq.tempo.prof <- table(Q2_tempo_prof, Q1_profissao)
+cbind(tab.freq.tempo.prof, margin.table(tab.freq.tempo.prof, 1))
+rbind(tab.freq.tempo.prof, margin.table(tab.freq.tempo.prof, 2))
+
+prop.table(tab.freq.tempo.prof)
+prop.table(tab.freq.tempo.prof, 1)
+prop.table(tab.freq.tempo.prof, 2)
+
+CrossTable(enfermagem$Q2_tempo_prof, enfermagem$Q1_profissao)
+
+# Tabelas Relativas e Proporcionais (Q2_tempo_prof X Q3_disc_esp)
+tab.freq.tempo.disc <- table(Q2_tempo_prof, Q3_disc_esp)
+cbind(tab.freq.tempo.disc, margin.table(tab.freq.tempo.disc, 1))
+rbind(tab.freq.tempo.disc, margin.table(tab.freq.tempo.disc, 2))
+
+prop.table(tab.freq.tempo.disc)
+prop.table(tab.freq.tempo.disc, 1)
+prop.table(tab.freq.tempo.disc, 2)
+
+CrossTable(enfermagem$Q2_tempo_prof, enfermagem$Q3_disc_esp)
+
+# Tabelas Relativas e Proporcionais (Q2_tempo_prof X Q4_capacita)
+tab.freq.tempo.capacita <- table(Q2_tempo_prof, Q4_capacita)
+cbind(tab.freq.tempo.capacita, margin.table(tab.freq.tempo.capacita, 1))
+rbind(tab.freq.tempo.capacita, margin.table(tab.freq.tempo.capacita, 2))
+
+prop.table(tab.freq.tempo.capacita)
+prop.table(tab.freq.tempo.capacita, 1)
+prop.table(tab.freq.tempo.capacita, 2)
+
+CrossTable(enfermagem$Q2_tempo_prof, enfermagem$Q4_capacita)
+
+# Tabelas Relativas e Proporcionais (Q2_tempo_prof X Q5_OMS)
+tab.freq.tempo.OMS <- table(Q2_tempo_prof, Q5_OMS)
+cbind(tab.freq.tempo.OMS, margin.table(tab.freq.tempo.OMS, 1))
+rbind(tab.freq.tempo.OMS, margin.table(tab.freq.tempo.OMS, 2))
+
+prop.table(tab.freq.tempo.OMS)
+prop.table(tab.freq.tempo.OMS, 1)
+prop.table(tab.freq.tempo.OMS, 2)
+
+CrossTable(enfermagem$Q2_tempo_prof, enfermagem$Q5_OMS)
+
+# Tabelas Relativas e Proporcionais (Q2_tempo_prof X Q6_metodo)
+tab.freq.tempo.metodo <- table(Q2_tempo_prof, Q6_metodo)
+cbind(tab.freq.tempo.metodo, margin.table(tab.freq.tempo.metodo, 1))
+rbind(tab.freq.tempo.metodo, margin.table(tab.freq.tempo.metodo, 2))
+
+prop.table(tab.freq.tempo.metodo)
+prop.table(tab.freq.tempo.metodo, 1)
+prop.table(tab.freq.tempo.metodo, 2)
+
+CrossTable(enfermagem$Q2_tempo_prof, enfermagem$Q6_metodo)
+
+# Tabelas Relativas e Proporcionais (Q2_tempo_prof X Q6_utiliza)
+tab.freq.tempo.utiliza <- table(Q2_tempo_prof, Q6_utiliza)
+cbind(tab.freq.tempo.utiliza, margin.table(tab.freq.tempo.utiliza, 1))
+rbind(tab.freq.tempo.utiliza, margin.table(tab.freq.tempo.utiliza, 2))
+
+prop.table(tab.freq.tempo.utiliza)
+prop.table(tab.freq.tempo.utiliza, 1)
+prop.table(tab.freq.tempo.utiliza, 2)
+
+CrossTable(enfermagem$Q2_tempo_prof, enfermagem$Q6_utiliza)
+
+# Tabelas Relativas e Proporcionais (Q2_tempo_prof X Q7_nome_met)
+tab.freq.tempo.nomemet <- table(Q2_tempo_prof, Q7_nome_met)
+cbind(tab.freq.tempo.nomemet, margin.table(tab.freq.tempo.nomemet, 1))
+rbind(tab.freq.tempo.nomemet, margin.table(tab.freq.tempo.nomemet, 2))
+
+prop.table(tab.freq.tempo.nomemet)
+prop.table(tab.freq.tempo.nomemet, 1)
+prop.table(tab.freq.tempo.nomemet, 2)
+
+CrossTable(enfermagem$Q2_tempo_prof, enfermagem$Q7_nome_met)
+
+# Tabelas Relativas e Proporcionais (Q2_tempo_prof X Q12_dor_suportavel)
+tab.freq.tempo.dor <- table(Q2_tempo_prof, Q12_dor_suportavel)
+cbind(tab.freq.tempo.dor, margin.table(tab.freq.tempo.dor, 1))
+rbind(tab.freq.tempo.dor, margin.table(tab.freq.tempo.dor, 2))
+
+prop.table(tab.freq.tempo.dor)
+prop.table(tab.freq.tempo.dor, 1)
+prop.table(tab.freq.tempo.dor, 2)
+
+CrossTable(enfermagem$Q2_tempo_prof, enfermagem$Q12_dor_suportavel)
+
+# Tabelas Relativas e Proporcionais (Q2_tempo_prof X Q17_transducao)
+tab.freq.tempo.transducao <- table(Q2_tempo_prof, Q17_transducao)
+cbind(tab.freq.tempo.transducao, margin.table(tab.freq.tempo.transducao, 1))
+rbind(tab.freq.tempo.transducao, margin.table(tab.freq.tempo.transducao, 2))
+
+prop.table(tab.freq.tempo.transducao)
+prop.table(tab.freq.tempo.transducao, 1)
+prop.table(tab.freq.tempo.transducao, 2)
+
+CrossTable(enfermagem$Q2_tempo_prof, enfermagem$Q17_transducao)
+
+# Tabelas Relativas e Proporcionais (Q2_tempo_prof X Q18_dor)
+tab.freq.tempo.dor2 <- table(Q2_tempo_prof, Q18_dor)
+cbind(tab.freq.tempo.dor2, margin.table(tab.freq.tempo.dor2, 1))
+rbind(tab.freq.tempo.dor2, margin.table(tab.freq.tempo.dor2, 2))
+
+prop.table(tab.freq.tempo.dor2)
+prop.table(tab.freq.tempo.dor2, 1)
+prop.table(tab.freq.tempo.dor2, 2)
+
+CrossTable(enfermagem$Q2_tempo_prof, enfermagem$Q18_dor)
+
+# Tabelas Relativas e Proporcionais (Q2_tempo_prof X Q19_cultura)
+tab.freq.tempo.cultura <- table(Q2_tempo_prof, Q19_cultura)
+cbind(tab.freq.tempo.cultura, margin.table(tab.freq.tempo.cultura, 1))
+rbind(tab.freq.tempo.cultura, margin.table(tab.freq.tempo.cultura, 2))
+
+prop.table(tab.freq.tempo.cultura)
+prop.table(tab.freq.tempo.cultura, 1)
+prop.table(tab.freq.tempo.cultura, 2)
+
+CrossTable(enfermagem$Q2_tempo_prof, enfermagem$Q19_cultura)
+
+# Tabelas Relativas e Proporcionais (Q2_tempo_prof X Q20_protocolo)
+tab.freq.tempo.protocolo <- table(Q2_tempo_prof, Q20_protocolo)
+cbind(tab.freq.tempo.protocolo, margin.table(tab.freq.tempo.protocolo, 1))
+rbind(tab.freq.tempo.protocolo, margin.table(tab.freq.tempo.protocolo, 2))
+
+prop.table(tab.freq.tempo.protocolo)
+prop.table(tab.freq.tempo.protocolo, 1)
+prop.table(tab.freq.tempo.protocolo, 2)
+
+CrossTable(enfermagem$Q2_tempo_prof, enfermagem$Q20_protocolo)
+
+
+# Tabelas Proporcionais com 3 variáveis
+tabela.freq.hospital.tempo <- table(Hospital, Q1_profissao, Q2_tempo_prof)
+ftable(tabela.freq.hospital.tempo)
+summary(tabela.freq.hospital.tempo)
+
+
+######### -------------------------------------------------------------##########
+
+
+### Apresentação Gráfica Geral
+# Instalação de pacote gráfico
+install.packages("ggplot2")
+library(ggplot2)
+
+# Instalação pacote sjPlot (Data Visualization for Statistics in Social Science)
+# (Description: collection of several plotting and table output functions for
+# visualizing data, and utility functions)
+
+# Tive que instalar do "repo" no RStudio porque no CRAN náo funcionava
+install.packages("sjPlot", repos=c("http://rstudio.org/_packages",
+                                   "http://cran.rstudio.com"))
+
+library(sjPlot)
+require(sjPlot)
+require(ggplot2)
+data(efc)                       # Atribuir rotulos as variaveis
+
+rotulo_valor <- sji.getValueLabels(enfermagem)
+rotulo.variavel <- sji.getVariableLabels(enfermagem)
+
+enfermagem <- sji.setValueLabels(enfermagem, rotulo_valor)
+enfermagem <- sji.setVariableLabels(enfermagem, rotulo.variavel)
+
+# Gráfico de Distribuição de Frequencias
+Graf.Hosp <- enfermagem$Hospital
+sjp.frq(Graf.Hosp, type = "bar",
+        title = "Distribuição de Profissionais Entrevistados por Hospital")
+
+Graf.Setor <- enfermagem$Setor
+sjp.frq(Graf.Setor, type = "bar", sort.frq = "desc",
+        title = "Disttribuição de Profissionais por Setor")
+
+Graf.Profissao <- enfermagem$Q1_profissao
+sjp.frq(Graf.Profissao, type = "bar",
+        title = "Disttribuição de Profissionais por Categoria")
+
+Graf.Tempo <- enfermagem$Q2_tempo_prof
+sjp.frq(Graf.Tempo, type = "bar",
+        title = "Disttribuição de Profissionais por Tempo de Profissão")
+
+Graf.Disc <- enfermagem$Q3_disc_esp
+sjp.frq(Graf.Disc, type = "bar", sort.frq = "desc",
+        title = "Percentual de Profissionais que tiveram disciplina
+        espcífica para tratamento da dor")
+
+Graf.Capacita <- enfermagem$Q4_capacita
+sjp.frq(Graf.Capacita, type = "bar", sort.frq = "desc",
+        title = "Percentual de Profissionais que realizou curso de
+        capacitação para cuidar pacientes com dor")
+
+Graf.OMS <- enfermagem$Q5_OMS
+sjp.frq(Graf.OMS, type = "bar", sort.frq = "desc",
+        title = "Percentual de Profissionais que conhecem o guia de
+        tratamento da dor preconizado pela OMS")
+
+Graf.Metodo <- enfermagem$Q6_metodo
+sjp.frq(Graf.Metodo, type = "bar", sort.frq = "desc",
+        title = "Percentual de Profissionais que conhecem algum
+        método/escala/questionário para avaliar a dor")
+
+Graf.Utiliza <- enfermagem$Q6_utiliza
+sjp.frq(Graf.Utiliza, type = "bar", sort.frq = "desc",
+        title = "Percentual de Profissionais que utiliza algum 
+        método/escala/questionário")
+
+Graf.NomeMet <- enfermagem$Q7_nome_met
+sjp.frq(Graf.NomeMet, type = "bar", sort.frq = "desc",
+        title = "Métodos utilizados pelos Enfermeiros e Técnicos
+        de Enfermagem entrevistados")
+
+Graf.DorSupor <- enfermagem$Q12_dor_suportavel
+sjp.frq(Graf.DorSupor, type = "bar", sort.frq = "desc",
+        title = "Percentual de profissionais que concordam ou não
+        medicar o paciente se a dor for suportável")
+
+Graf.Transducao <- enfermagem$Q17_transducao
+sjp.frq(Graf.Transducao, type = "bar", sort.frq = "desc",
+        title = "Percentual de Profissionais que sabem o que é Transdução")
+
+Graf.DorSig <- enfermagem$Q18_dor
+sjp.frq(Graf.DorSig, type = "bar", sort.frq = "desc",
+        title = "Significado da dor para os profissionais entrevistados")
+
+Graf.Cultura <- enfermagem$Q19_cultura
+sjp.frq(Graf.Cultura, type = "bar", sort.frq = "desc",
+        title = "Percentual de Profissionais que acreditam a
+        história,a cultura e a percepção de vida
+        do paciente interferena dor")
+
+Graf.Protocolo <- enfermagem$Q20_protocolo
+sjp.frq(Graf.Protocolo, type = "bar", sort.frq = "desc",
+        title = "Percentual dos Profissionais que seguem um 
+        protocolo ou rotina específica da dor em seus pacientes")
+
+
+
+
+### Apresentação Gráfica Segmentada (Por Hospitais, Categoria e Tempo de Serviço)
+
+
+
+
+
+
+# install.packages("stargazer")
+# library(stargazer)
+# stargazer(enfermagem[ , 4])
+# install.packages("xtable")
+# library(xtable)
+# Tat <-xtable(enfermagem)
+# print.xtable(Tat, type = "atex")
+
+
+###                       TABELAS DE CONTINGENCIA                           ###
+
+###                  TESTES DE HIPOTESES - QUI QUADRADO                     ###
+
+###                       ANALISE DE CORRESPONDENCIA                        ###
