@@ -513,6 +513,11 @@ require(sjPlot)
 require(ggplot2)
 data(efc)                       # Atribuir rotulos as variaveis
 
+# Instalação pacote RColorBrewer (cores em degradê)
+install.packages("RColorBrewer")
+library(RColorBrewer)
+
+
 rotulo_valor <- sji.getValueLabels(enfermagem)
 rotulo.variavel <- sji.getVariableLabels(enfermagem)
 
@@ -520,84 +525,296 @@ enfermagem <- sji.setValueLabels(enfermagem, rotulo_valor)
 enfermagem <- sji.setVariableLabels(enfermagem, rotulo.variavel)
 
 # Gráfico de Distribuição de Frequencias
-Graf.Hosp <- enfermagem$Hospital
-sjp.frq(Graf.Hosp, type = "bar",
+# Customização geral dos gráficos
+
+sjp.setTheme(geom.label.size = 5, geom.label.color = "gray22",
+             geom.outline.color = "antiquewhite4",
+             geom.outline.size = .8, title.align = "center",
+             title.color = "grey50", title.size = 1.7,
+             axis.textcolor = "grey30",
+             axis.textsize = 1.1, axis.title.size = 1.3,
+             base = theme_bw())
+
+### ------------------------------------------------------------------------###
+# Customização individuais dos gráficos
+
+Graf.Hosp <- (enfermagem$Hospital)
+sjp.frq(Graf.Hosp, type = "bar",geom.colors = "lightblue",
         title = "Distribuição de Profissionais Entrevistados por Hospital")
 
-Graf.Setor <- enfermagem$Setor
-sjp.frq(Graf.Setor, type = "bar", sort.frq = "desc",
+Graf.Setor <- (enfermagem$Setor)
+sjp.frq(Graf.Setor, type = "bar", sort.frq = "desc", geom.colors = "green3",
         title = "Disttribuição de Profissionais por Setor")
 
 Graf.Profissao <- enfermagem$Q1_profissao
-sjp.frq(Graf.Profissao, type = "bar",
+sjp.frq(Graf.Profissao, type = "bar", geom.colors = "darkslategray4",
         title = "Disttribuição de Profissionais por Categoria")
 
 Graf.Tempo <- enfermagem$Q2_tempo_prof
 sjp.frq(Graf.Tempo, type = "bar",
+        geom.colors = c("yellow", "orange", "green", "lightblue"),
         title = "Disttribuição de Profissionais por Tempo de Profissão")
 
 Graf.Disc <- enfermagem$Q3_disc_esp
 sjp.frq(Graf.Disc, type = "bar", sort.frq = "desc",
+        geom.colors = "palegreen",
         title = "Percentual de Profissionais que tiveram disciplina
         espcífica para tratamento da dor")
 
 Graf.Capacita <- enfermagem$Q4_capacita
 sjp.frq(Graf.Capacita, type = "bar", sort.frq = "desc",
+        geom.colors = "palegreen",
         title = "Percentual de Profissionais que realizou curso de
         capacitação para cuidar pacientes com dor")
 
 Graf.OMS <- enfermagem$Q5_OMS
 sjp.frq(Graf.OMS, type = "bar", sort.frq = "desc",
+        geom.colors = "palegreen",
         title = "Percentual de Profissionais que conhecem o guia de
         tratamento da dor preconizado pela OMS")
 
 Graf.Metodo <- enfermagem$Q6_metodo
 sjp.frq(Graf.Metodo, type = "bar", sort.frq = "desc",
+        geom.colors = "palegreen",
         title = "Percentual de Profissionais que conhecem algum
         método/escala/questionário para avaliar a dor")
 
 Graf.Utiliza <- enfermagem$Q6_utiliza
 sjp.frq(Graf.Utiliza, type = "bar", sort.frq = "desc",
+        geom.colors = "palegreen",
         title = "Percentual de Profissionais que utiliza algum 
         método/escala/questionário")
 
 Graf.NomeMet <- enfermagem$Q7_nome_met
 sjp.frq(Graf.NomeMet, type = "bar", sort.frq = "desc",
+        geom.colors = "palegreen",
         title = "Métodos utilizados pelos Enfermeiros e Técnicos
         de Enfermagem entrevistados")
 
 Graf.DorSupor <- enfermagem$Q12_dor_suportavel
 sjp.frq(Graf.DorSupor, type = "bar", sort.frq = "desc",
+        geom.colors = "palegreen",
         title = "Percentual de profissionais que concordam ou não
         medicar o paciente se a dor for suportável")
 
 Graf.Transducao <- enfermagem$Q17_transducao
 sjp.frq(Graf.Transducao, type = "bar", sort.frq = "desc",
+        geom.colors = "palegreen",
         title = "Percentual de Profissionais que sabem o que é Transdução")
 
 Graf.DorSig <- enfermagem$Q18_dor
 sjp.frq(Graf.DorSig, type = "bar", sort.frq = "desc",
+        geom.colors = "palegreen",
         title = "Significado da dor para os profissionais entrevistados")
 
 Graf.Cultura <- enfermagem$Q19_cultura
 sjp.frq(Graf.Cultura, type = "bar", sort.frq = "desc",
+        geom.colors = "palegreen",
         title = "Percentual de Profissionais que acreditam a
         história,a cultura e a percepção de vida
-        do paciente interferena dor")
+        do paciente interfere na dor")
 
 Graf.Protocolo <- enfermagem$Q20_protocolo
 sjp.frq(Graf.Protocolo, type = "bar", sort.frq = "desc",
+        geom.colors = "palegreen",
         title = "Percentual dos Profissionais que seguem um 
         protocolo ou rotina específica da dor em seus pacientes")
 
 
+### Apresentação Gráfica Segmentada (Por Categoria de profissão)
 
+# Para realizar os testes de Qui-Quadrado geramos outro arquivo onde
+# parametrizamos os valores para "sim" e "não"
 
-### Apresentação Gráfica Segmentada (Por Hospitais, Categoria e Tempo de Serviço)
+SN <- read.csv(file = "Dor_Sim_Nao.csv", header = T, sep = ";")
+SN
+# Customização geral dos gráficos
 
+sjp.setTheme(geom.label.size = 4, geom.label.color = "gray22",
+             geom.outline.color = "antiquewhite4",
+             geom.outline.size = .8, title.align = "center",
+             title.color = "grey50", title.size = 1.5,
+             axis.textcolor = "grey30", legend.size = .7,
+             axis.textsize = 1.1, axis.title.size = 1.3,
+             base = theme_bw())
 
+sjp.grpfrq(SN$Q1_profissao, SN$Q2_tempo_prof,
+           geom.size = 0.4,geom.colors = "Greens",
+           legendTitle = "Tempo de Experiência",
+           title = "Enfermeiros e Técnicos de Enfermagem
+           segundo o tempo de experiência")
 
+sjp.grpfrq(SN$Q1_profissao, SN$Q3_disc_esp,
+           geom.size = 0.4,geom.colors = "Greens",
+           legendTitle = "Curso de capacitação",
+           title = "Presença de Disciplina Específica da Dor")
 
+sjp.grpfrq(SN$Q1_profissao, SN$Q4_capacita,
+           geom.size = 0.4,geom.colors = "Greens",
+           legendTitle = "Tempo de Experiência",
+           axisLimits.y = c(0,300),
+           title = "Presença de Curso de Capacitação")
+
+sjp.grpfrq(SN$Q1_profissao, SN$Q5_OMS,
+           geom.size = 0.4,geom.colors = "Greens",
+           legendTitle = "Conhece o Guia",
+           axisLimits.y = c(0,250),
+           title = "Conhecimento sobre o Guia da Dor da OMS")
+
+sjp.grpfrq(SN$Q1_profissao, SN$Q6_metodo,
+           geom.size = 0.4,geom.colors = "Greens",
+           legendTitle = "Avaliação da dor",
+           axisLimits.y = c(0,300),
+           title = "Conhecimento de algum método para avaliar a dor")
+
+sjp.grpfrq(SN$Q1_profissao, SN$Q6_utiliza,
+           geom.size = 0.4,geom.colors = "Greens",
+           legendTitle = "Utiliza métodos",
+           title = "Utilização de algum método para avaliar a dor")
+
+sjp.grpfrq(SN$Q1_profissao, SN$Q12_dor_suportavel,
+           geom.size = 0.4,geom.colors = "Greens",
+           legendTitle = "Investigação da dor",
+           axisLimits.y = c(0,300),
+           title = "Investigação da dor antes da medicação")
+
+sjp.grpfrq(SN$Q1_profissao, SN$Q17_transducao,
+           geom.size = 0.4,geom.colors = "Greens",
+           legendTitle = "Conhece transdução",
+           title = "Conhecimento sobre o que é Transdução")
+
+sjp.grpfrq(SN$Q1_profissao, SN$Q19_cultura,
+           geom.size = 0.4,geom.colors = "Greens",
+           legendTitle = "A cultura interfere",
+           axisLimits.y = c(0,350),
+           title = "A interferência da cultura do paciente na dor")
+
+sjp.grpfrq(SN$Q1_profissao, SN$Q20_protocolo,
+           geom.size = 0.4,geom.colors = "Greens",
+           legendTitle = "Protocolo",
+           axisLimits.y = c(0,300),
+           title = "Aplicação de protocolo na avaliação da doro")
+
+### Apresentação Gráfica Segmentada (Por Hospitais)
+
+sjp.grpfrq(SN$Hospital, SN$Q2_tempo_prof,
+           geom.size = 0.4,geom.colors = "Blues",
+           legendTitle = "Tempo de Experiência",
+           title = "Tempo de experiência do profissional por Hospital")
+
+sjp.grpfrq(SN$Hospital, SN$Q3_disc_esp,
+           geom.size = 0.4,geom.colors = "Blues",
+           legendTitle = "Disciplina específica",
+           title = "Realização de Disciplina Específica da Dor")
+
+sjp.grpfrq(SN$Hospital, SN$Q4_capacita,
+           geom.size = 0.4,geom.colors = "Blues",
+           legendTitle = "Capacitação",
+           axisLimits.y = c(0,150),
+           title = "Presença de Curso de Capacitação")
+
+sjp.grpfrq(SN$Hospital, SN$Q5_OMS,
+           geom.size = 0.4,geom.colors = "Blues",
+           legendTitle = "Conhece o Guia",
+           axisLimits.y = c(0,150),
+           title = "Conhecimento sobre o Guia da Dor da OMS")
+
+sjp.grpfrq(SN$Hospital, SN$Q6_metodo,
+           geom.size = 0.4,geom.colors = "Blues",
+           legendTitle = "Avaliação da dor",
+           axisLimits.y = c(0,150),
+           title = "Conhecimento de algum método para avaliar a dor")
+
+sjp.grpfrq(SN$Hospital, SN$Q6_utiliza,
+           geom.size = 0.4,geom.colors = "Blues",
+           legendTitle = "Utiliza métodos",
+           title = "Utilização de algum método para avaliar a dor")
+
+sjp.grpfrq(SN$Hospital, SN$Q12_dor_suportavel,
+           geom.size = 0.4,geom.colors = "Blues",
+           legendTitle = "Investigação da dor",
+           axisLimits.y = c(0,150),
+           title = "Investigação da dor antes da medicação")
+
+sjp.grpfrq(SN$Hospital, SN$Q17_transducao,
+           geom.size = 0.4,geom.colors = "Blues",
+           legendTitle = "Conhece transdução",
+           title = "Conhecimento sobre o que é Transdução")
+
+sjp.grpfrq(SN$Hospital, SN$Q19_cultura,
+           geom.size = 0.4,geom.colors = "Blues",
+           legendTitle = "A cultura interfere",
+           axisLimits.y = c(0,200),
+           title = "A interferência da cultura do paciente na dor")
+
+sjp.grpfrq(SN$Hospital, SN$Q20_protocolo,
+           geom.size = 0.4,geom.colors = "Blues",
+           legendTitle = "Protocolo",
+           axisLimits.y = c(0,150),
+           title = "Aplicação de protocolo na avaliação da doro")
+
+### Apresentação Gráfica Segmentada (Por Tempo de Serviço)
+
+sjp.grpfrq(SN$Q2_tempo_prof, SN$Hospital,
+           geom.size = 0.4,geom.colors = "Reds",
+           legendTitle = "Tempo de Experiência",
+           title = "Tempo de experiência do profissional por Hospital")
+
+sjp.grpfrq(SN$Q2_tempo_prof, SN$Q1_profissao,
+           geom.size = 0.4,geom.colors = "Reds",
+           legendTitle = "Profissão",
+           title = "Tempo de experiência por profissão")
+
+sjp.grpfrq(SN$Q2_tempo_prof, SN$Q3_disc_esp,
+           geom.size = 0.4,geom.colors = "Reds",
+           legendTitle = "Disciplina específica",
+           title = "Realização de Disciplina Específica da Dor")
+
+sjp.grpfrq(SN$Q2_tempo_prof, SN$Q4_capacita,
+           geom.size = 0.4,geom.colors = "Reds",
+           legendTitle = "Capacitação",
+           axisLimits.y = c(0,150),
+           title = "Presença de Curso de Capacitação")
+
+sjp.grpfrq(SN$Q2_tempo_prof, SN$Q5_OMS,
+           geom.size = 0.4,geom.colors = "Reds",
+           legendTitle = "Conhece o Guia",
+           axisLimits.y = c(0,150),
+           title = "Conhecimento sobre o Guia da Dor da OMS")
+
+sjp.grpfrq(SN$Q2_tempo_prof, SN$Q6_metodo,
+           geom.size = 0.4,geom.colors = "Reds",
+           legendTitle = "Avaliação da dor",
+           axisLimits.y = c(0,150),
+           title = "Conhecimento de algum método para avaliar a dor")
+
+sjp.grpfrq(SN$Q2_tempo_prof, SN$Q6_utiliza,
+           geom.size = 0.4,geom.colors = "Reds",
+           legendTitle = "Utiliza métodos",
+           title = "Utilização de algum método para avaliar a dor")
+
+sjp.grpfrq(SN$Q2_tempo_prof, SN$Q12_dor_suportavel,
+           geom.size = 0.4,geom.colors = "Reds",
+           legendTitle = "Investigação da dor",
+           axisLimits.y = c(0,150),
+           title = "Investigação da dor antes da medicação")
+
+sjp.grpfrq(SN$Q2_tempo_prof, SN$Q17_transducao,
+           geom.size = 0.4,geom.colors = "Reds",
+           legendTitle = "Conhece transdução",
+           title = "Conhecimento sobre o que é Transdução")
+
+sjp.grpfrq(SN$Q2_tempo_prof, SN$Q19_cultura,
+           geom.size = 0.4,geom.colors = "Reds",
+           legendTitle = "A cultura interfere",
+           axisLimits.y = c(0,200),
+           title = "A interferência da cultura do paciente na dor")
+
+sjp.grpfrq(SN$Q2_tempo_prof, SN$Q20_protocolo,
+           geom.size = 0.4,geom.colors = "Reds",
+           legendTitle = "Protocolo",
+           axisLimits.y = c(0,150),
+           title = "Aplicação de protocolo na avaliação da doro")
 
 
 # install.packages("stargazer")
@@ -611,6 +828,19 @@ sjp.frq(Graf.Protocolo, type = "bar", sort.frq = "desc",
 
 ###                       TABELAS DE CONTINGENCIA                           ###
 
+
+
+
+
+
+
+
 ###                  TESTES DE HIPOTESES - QUI QUADRADO                     ###
+
+
+
+
+
+
 
 ###                       ANALISE DE CORRESPONDENCIA                        ###
